@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>نور الهدى</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<main>
+    <header class="hero">
+
+        <div class="topbar">
+          <div class="left"onclick="location.href='profile.html'">👤 </div>
+      
+          <div class="city-wrapper">
+            <div class="city-box">
+              📍
+              <input id="citySearch" placeholder="ابحث عن المدينة...">
+              ⌄
+            </div>
+            <div id="cityList" class="city-list"></div>
+          </div>
+      
+          <div class="logo"onclick="location.href='index.html'">نور الهدى</div>
+        </div>
+      
+        <div class="overlay">
+          <h2 id="nextPrayer">متبقي على الصلاة</h2>
+          <div class="timer" id="timer">00:00:00</div>
+        </div>
+      
+      </header>
+      
+      <section class="features">
+          <div class="circle" onclick="location.href='html/wird.html'">
+              📖<span>الورد اليومي</span>
+              </div>
+              <div onclick="location.href='html/ramadan.html'" class="circle">
+                  📚<span>محتوى رمضاني</span>
+                  </div>
+                  
+        <div class="circle" onclick="location.href='html/azkar.html'">🔔<span>أذكار </span></div>
+        <div class="circle"onclick="location.href='html/challenge.html'">🌙<span>تحدي رمضان</span></div>
+      </section>
+      
+      <section class="prayer-card">
+        <h3>الوقت الصلاة</h3>
+        <div id="prayers"></div>
+      </section>
+</main>
+
+<footer class="site-footer">
+    <div class="footer-container">
+        
+        <div class="footer-dedication">
+            <h3>نسألكم الفاتحة والدعاء لروح كل من:</h3>
+            <ul>
+                <li>علي عبدالحكيم أحمد</li>
+                <li>هود حلمي عثمان</li>
+                <li>أم محمد هشام محمد محي</li>
+                <li>أم أحمد هود حلمي</li>
+            </ul>
+        </div>
+
+        <div class="footer-credit">
+            Made by <br> <span>Ali Mostafa Hood Helmy</span>
+        </div>
+
+        <div class="footer-contact">
+            <h3>اتصل بنا</h3>
+            <a href="tel:01098394257" class="phone-link">
+                <i class="fas fa-phone-alt"></i> 01098394257
+            </a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        &copy; 2026 Eng_Ali Hood جميع الحقوق محفوظة ..
+    </div>
+</footer>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>نور الهدى</title>
+<link rel="stylesheet" href="../css/ramadan.css">
+</head>
+<body>
+
+<main>
+  <header><div class="header-inner">
+      
+    <div class="left"onclick="location.href='profile.html'">👤 </div>
+  
+    
+  
+    <div class="right">
+      <a href="../index.html" class="logo-link">نور الهدى</a>
+    </div>
+  
+  </div>
+  </header>
+  <div class="search-box">
+    <input id="searchInput" placeholder="ابحث عن آية أو حديث...">
+    
+   </div>
+   
+  <div class="tabs">
+  <button onclick="showHadith()">📜 الأحاديث</button>
+  <button onclick="showTafsir()">📖 تفسير القرآن</button>
+  <button onclick="showFav()">❤️ المفضلة</button>
+  <button onclick="showRead()">✔ تمت قراءته</button>
+  </div>
+  
+  <div id="stats"></div>
+  
+  <div id="content"></div>
+  
+  <div class="nav">
+  <button onclick="loadMore()">➕ المزيد</button>
+  </div>
+</main>
+<footer class="site-footer">
+  <div class="footer-container">
+      
+      <div class="footer-dedication">
+          <h3>نسألكم الفاتحة والدعاء لروح كل من:</h3>
+          <ul>
+              <li>علي عبدالحكيم أحمد</li>
+              <li>هود حلمي عثمان</li>
+              <li>أم محمد هشام محمد محي</li>
+              <li>أم أحمد هود حلمي</li>
+          </ul>
+      </div>
+
+      <div class="footer-credit">
+          Made by <br> <span>Ali Mostafa Hood Helmy</span>
+      </div>
+
+      <div class="footer-contact">
+          <h3>اتصل بنا</h3>
+          <a href="tel:01098394257" class="phone-link">
+              <i class="fas fa-phone-alt"></i> 01098394257
+          </a>
+      </div>
+
+  </div>
+
+  <div class="footer-bottom">
+      &copy; 2026 Eng_Ali Hood جميع الحقوق محفوظة ..
+  </div>
+</footer>
+<script src="../data/hadiths.js"></script>
+<script src="../js/ramadan.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ورد اليوم</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Amiri&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../css/style.css">
+
+</head>
+<body>
+    <main>
+      <header class="main-header">
+        <div class="header-inner">
+      
+          <div class="left"onclick="location.href='profile.html'">👤 </div>
+      
+          
+      
+          <div class="right">
+            <a href="../index.html" class="logo-link">نور الهدى</a>
+          </div>
+      
+        </div>
+        <div class="font-controls">
+            <button onclick="changeFont(1)">A+</button>
+            <button onclick="changeFont(-1)">A-</button>
+           </div>
+           
+      </header>
+      <div id="finishModal" class="modal">
+        <div class="modal-card">
+      
+          <div class="stars">✨ ⭐ ✨</div>
+      
+          <h2>🎉 مبارك!</h2>
+          <p class="big">أتممت تحدي اليوم</p>
+      
+          <p>تقبل الله طاعتك، استمر على هذا المنوال!</p>
+      
+          <div class="bonus">
+            <span>نقطة إضافية</span>
+            <strong>+50</strong>
+          </div>
+      
+          <button onclick="closeModal()">استمر</button>
+        </div>
+      </div>
+      
+
+
+<div class="progress-box">
+  <span id="progressText"></span>
+  <div class="progress-bar">
+    <div id="progressFill"></div>
+  </div>
+</div>
+
+<div class="controls">
+  <button onclick="changeJuz(-1)">− جزء</button>
+  <span id="juzNumber"></span>
+  <button onclick="changeJuz(1)">+ جزء</button>
+</div>
+
+<div id="ayahs" class="mushaf"></div>
+
+<button class="done" onclick="markDone()">تمت القراءة ✅</button>
+    </main>
+<footer class="site-footer">
+    <div class="footer-container">
+        
+        <div class="footer-dedication">
+            <h3>نسألكم الفاتحة والدعاء لروح كل من:</h3>
+            <ul>
+                <li>علي عبدالحكيم أحمد</li>
+                <li>هود حلمي عثمان</li>
+                <li>أم محمد هشام محمد محي</li>
+                <li>أم أحمد هود حلمي</li>
+            </ul>
+        </div>
+
+        <div class="footer-credit">
+            Made by <br> <span>Ali Mostafa Hood Helmy</span>
+        </div>
+
+        <div class="footer-contact">
+            <h3>اتصل بنا</h3>
+            <a href="tel:01098394257" class="phone-link">
+                <i class="fas fa-phone-alt"></i> 01098394257
+            </a>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        &copy; 2026 Eng_Ali Hood جميع الحقوق محفوظة ..
+    </div>
+</footer>
+<script src="../js/wird.js"></script>
+</body>
+</html>
