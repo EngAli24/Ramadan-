@@ -54,24 +54,36 @@ function createCard(id, text, more, source){
   m.style.display=m.style.display==="block"?"none":"block";
  };
 
- const favBtn=document.createElement("button");
- favBtn.textContent=fav.includes(id)?"💛":"❤️";
- favBtn.onclick=()=>{
-  if(!fav.includes(id)) fav.push(id);
-  else fav=fav.filter(x=>x!==id);
-  save();
- };
+ const favBtn = document.createElement("button");
+favBtn.textContent = fav.includes(id) ? "💛" : "❤️";
+favBtn.onclick = () => {
 
- const readBtn=document.createElement("button");
- readBtn.textContent=read.includes(id)?"✔ تم":"✔ تمت القراءة";
- readBtn.onclick=()=>{
-  if(!read.includes(id)){
-   read.push(id);
-   secondaryPoints += 3;
-   save();
-   readBtn.textContent="✔ تم";
-  }
- };
+ if(!fav.includes(id)) fav.push(id);
+ else fav = fav.filter(x => x !== id);
+
+ save();
+
+ if(mode === "fav") showFav();
+ if(mode === "read") showRead();
+};
+
+const readBtn = document.createElement("button");
+readBtn.textContent = read.includes(id) ? "✔ تم" : "✔ تمت القراءة";
+
+readBtn.onclick = () => {
+
+ if(!read.includes(id)){
+  read.push(id);
+  secondaryPoints += 3;
+  save();
+ }
+
+ readBtn.textContent = "✔ تم";
+
+ if(mode === "read") showRead();
+ if(mode === "fav") showFav();
+};
+
 
  actions.append(moreBtn,favBtn,readBtn);
  div.appendChild(actions);
@@ -253,3 +265,4 @@ function showRead(){
 
 save();
 showHadith();
+
