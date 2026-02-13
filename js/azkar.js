@@ -98,6 +98,8 @@ function openCategory(type){
  });
 
  renderProgress(doneCount,items.length);
+ listContainer.scrollIntoView({behavior:"smooth"});
+
 }
 
 /* ===== PROGRESS ===== */
@@ -190,3 +192,4 @@ function saveAzkar(){
 function isRamadan(){
  return new Date().getMonth()+1===9;
 }
+
