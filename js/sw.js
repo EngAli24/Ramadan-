@@ -1,29 +1,28 @@
-const CACHE_NAME = "noor-app-v1";
-
-const FILES = [
- "/Ramadan-/",
- "/Ramadan-/index.html",
-
- "/Ramadan-/css/style.css",
-
- "/Ramadan-/js/script.js",
- "/Ramadan-/js/wird.js",
- "/Ramadan-/js/azkar.js",
- "/Ramadan-/js/challenges.js",
- "/Ramadan-/js/profile.js",
- "/Ramadan-/js/ramadan.js",
-
- "/Ramadan-/js/adhan.mp3"
-];
+const CACHE = "noor-cache-v2";
 
 self.addEventListener("install", e => {
- e.waitUntil(
-  caches.open(CACHE_NAME).then(c => c.addAll(FILES))
- );
+  e.waitUntil(
+    caches.open(CACHE).then(cache =>
+      cache.addAll([
+        "./",
+        "./index.html",
+        "./css/style.css",
+        "./css/ramadan.css",
+        "./js/script.js",
+        "./js/wird.js",
+        "./js/azkar.js",
+        "./js/challenges.js",
+        "./js/profile.js",
+        "./js/ramadan.js",
+
+        "./js/adhan.mp3"
+      ])
+    )
+  );
 });
 
 self.addEventListener("fetch", e => {
- e.respondWith(
-  caches.match(e.request).then(r => r || fetch(e.request))
- );
+  e.respondWith(
+    caches.match(e.request).then(r => r || fetch(e.request))
+  );
 });
