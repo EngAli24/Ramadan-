@@ -11,7 +11,7 @@ let streak = Number(localStorage.getItem("zekrStreak")) || 0;
 /* ===== SERVICE WORKER ===== */
 
 if("serviceWorker" in navigator){
- navigator.serviceWorker.register("sw.js");
+ navigator.serviceWorker.register("js/sw.js");
 }
 
 if ("Notification" in window) {
@@ -232,3 +232,4 @@ function scheduleAzkarReminder(hour,title,msg){
 scheduleAzkarReminder(8,"🌅 أذكار الصباح","ابدأ يومك بذكر الله ✨");
 
 scheduleAzkarReminder(19,"🌙 أذكار المساء","لا تنس أذكار المساء 🤍");
+
