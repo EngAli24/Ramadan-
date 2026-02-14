@@ -16,8 +16,8 @@ document.addEventListener("click", () => {
 const cities = [
  "Cairo","Giza","Alexandria","Dakahlia","Sharqia","Gharbia","Monufia",
  "Qalyubia","Beheira","Kafr El Sheikh","Damietta","Port Said","Ismailia",
- "Suez","Faiyum","Beni Suef","Minya","Assiut","New Assiut City","Dayrout",
- "Sohag","New Sohag City","Qena","Luxor","Aswan","Red Sea","New Valley",
+ "Suez","Faiyum","Beni Suef","Minya","Assiut","Dayrout",
+ "Sohag","Qena","Luxor","Aswan","Red Sea","New Valley",
  "Matrouh","North Sinai","South Sinai",
  "Mecca","Medina","Kuwait"
 ];
@@ -174,6 +174,7 @@ function schedulePrayerNotify(prayers){
 
 input.value=localStorage.getItem("city") || "Assiut";
 loadPrayers();
+
 
 
 
