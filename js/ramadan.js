@@ -19,7 +19,7 @@ let read = JSON.parse(localStorage.getItem("read"));
 if(!Array.isArray(read)) read = [];
 
 if("serviceWorker" in navigator){
- navigator.serviceWorker.register("/sw.js");
+ navigator.serviceWorker.register("js/sw.js");
 }
 
 /* ================= SAVE ================= */
@@ -268,5 +268,6 @@ function showRead(){
 
 save();
 showHadith();
+
 
 
