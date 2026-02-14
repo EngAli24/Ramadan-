@@ -8,6 +8,16 @@ let secondaryPoints = Number(localStorage.getItem("secondaryPoints")) || 0;
 let lastDay = localStorage.getItem("zekrDay") || "";
 let streak = Number(localStorage.getItem("zekrStreak")) || 0;
 
+/* ===== SERVICE WORKER ===== */
+
+if("serviceWorker" in navigator){
+ navigator.serviceWorker.register("sw.js");
+}
+
+if ("Notification" in window) {
+ Notification.requestPermission();
+}
+
 /* ===== SAME NAMES ===== */
 
 const categories = [
@@ -26,16 +36,13 @@ const categories = [
 
 categories.forEach(c=>{
  const div=document.createElement("div");
- div.className="azkar-card";        // 👈 نفس الكلاس القديم
+ div.className="azkar-card";
  div.textContent=c[1];
  div.onclick=()=>openCategory(c[0]);
  cardsContainer.appendChild(div);
 });
 
 /* ===== OPEN CATEGORY ===== */
-if("serviceWorker" in navigator){
- navigator.serviceWorker.register("/sw.js");
-}
 
 function openCategory(type){
 
@@ -53,7 +60,7 @@ function openCategory(type){
  items.forEach(z=>{
 
   const card=document.createElement("div");
-  card.className="zekr-card";     // 👈 نفس شكل الكروت القديم
+  card.className="zekr-card";
 
   let counter=0;
 
@@ -102,7 +109,6 @@ function openCategory(type){
 
  renderProgress(doneCount,items.length);
  listContainer.scrollIntoView({behavior:"smooth"});
-
 }
 
 /* ===== PROGRESS ===== */
@@ -122,41 +128,40 @@ function renderProgress(done,total){
 
 function openTasbeeh(){
 
-    listContainer.innerHTML="";
-   
-    let count = Number(localStorage.getItem("tasbeehCount")) || 0;
-   
-    const card = document.createElement("div");
-    card.className = "zekr-card";
-   
-    card.innerHTML = `
-     <h3>📿 السبحة الإلكترونية</h3>
-     <div id="tasCount" style="font-size:48px;margin:20px 0">${count}</div>
-    `;
-   
-    const tasbeehBtn = document.createElement("button");
-    tasbeehBtn.textContent = "سبّح";
-   
-    tasbeehBtn.onclick = () => {
-     count++;
-     document.getElementById("tasCount").textContent = count;
-     localStorage.setItem("tasbeehCount", count);
-    };
-   
-    const resetBtn = document.createElement("button");
-    resetBtn.textContent = "تصفير";
-    resetBtn.style.background = "#caa74e";
-   
-    resetBtn.onclick = () => {
-     count = 0;
-     document.getElementById("tasCount").textContent = count;
-     localStorage.setItem("tasbeehCount", count);
-    };
-   
-    card.append(tasbeehBtn, resetBtn);
-    listContainer.appendChild(card);
-   }
-   
+ listContainer.innerHTML="";
+
+ let count = Number(localStorage.getItem("tasbeehCount")) || 0;
+
+ const card = document.createElement("div");
+ card.className="zekr-card";
+
+ card.innerHTML=`
+  <h3>📿 السبحة الإلكترونية</h3>
+  <div id="tasCount" style="font-size:48px;margin:20px 0">${count}</div>
+ `;
+
+ const tasbeehBtn=document.createElement("button");
+ tasbeehBtn.textContent="سبّح";
+
+ tasbeehBtn.onclick=()=>{
+  count++;
+  document.getElementById("tasCount").textContent=count;
+  localStorage.setItem("tasbeehCount",count);
+ };
+
+ const resetBtn=document.createElement("button");
+ resetBtn.textContent="تصفير";
+ resetBtn.style.background="#caa74e";
+
+ resetBtn.onclick=()=>{
+  count=0;
+  document.getElementById("tasCount").textContent=count;
+  localStorage.setItem("tasbeehCount",count);
+ };
+
+ card.append(tasbeehBtn,resetBtn);
+ listContainer.appendChild(card);
+}
 
 /* ===== REWARD ===== */
 
@@ -177,7 +182,6 @@ function updateStreak(){
   const yd=y.toISOString().split("T")[0];
 
   streak = lastDay===yd ? streak+1 : 1;
-
   lastDay=today;
 
   localStorage.setItem("zekrDay",today);
@@ -196,4 +200,35 @@ function isRamadan(){
  return new Date().getMonth()+1===9;
 }
 
+/* ================= BACKGROUND AZKAR REMINDERS ================= */
 
+function scheduleAzkarReminder(hour,title,msg){
+
+ const now=new Date();
+ const target=new Date();
+
+ target.setHours(hour,0,0,0);
+
+ if(target<=now){
+  target.setDate(target.getDate()+1);
+ }
+
+ const delay=target-now;
+
+ setTimeout(()=>{
+
+  navigator.serviceWorker.ready.then(reg=>{
+   reg.showNotification(title,{
+    body:msg,
+    vibrate:[200,100,200]
+   });
+  });
+
+  scheduleAzkarReminder(hour,title,msg);
+
+ },delay);
+}
+
+scheduleAzkarReminder(8,"🌅 أذكار الصباح","ابدأ يومك بذكر الله ✨");
+
+scheduleAzkarReminder(19,"🌙 أذكار المساء","لا تنس أذكار المساء 🤍");
