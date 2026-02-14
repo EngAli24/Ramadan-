@@ -1,10 +1,10 @@
 const CACHE_NAME = "noor-app-v1";
 
 const FILES = [
- "/Ramadan_/",
- "/Ramadan_/index.html",
+ "/Ramadan-/",
+ "/Ramadan-/index.html",
 
- "/Ramadan_/css/style.css",
+ "/Ramadan-/css/style.css",
 
  "/Ramadan-/js/script.js",
  "/Ramadan-/js/wird.js",
