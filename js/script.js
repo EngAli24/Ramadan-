@@ -1,7 +1,7 @@
 /* ================== SERVICE WORKER ================== */
 
 if ("serviceWorker" in navigator) {
- navigator.serviceWorker.register("sw.js");
+ navigator.serviceWorker.register("js/sw.js");
 }
 
 if ("Notification" in window) {
@@ -171,4 +171,5 @@ function schedulePrayerNotify(prayers){
 
 input.value=localStorage.getItem("city") || "Assiut";
 loadPrayers();
+
 
