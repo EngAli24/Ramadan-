@@ -94,6 +94,9 @@ function updateProgress(total){
 
  document.getElementById("progressFill").style.width = percent + "%";
 }
+if("serviceWorker" in navigator){
+ navigator.serviceWorker.register("/sw.js");
+}
 
 function changeJuz(step){
  currentJuz+=step;
@@ -139,4 +142,5 @@ function markDone(){
       
 
 loadWird();
+
 
