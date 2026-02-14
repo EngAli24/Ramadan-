@@ -14,7 +14,10 @@ const cities = [
    const nextTitle = document.getElementById("nextPrayer");
    
    let interval;
-   
+   if("serviceWorker" in navigator){
+ navigator.serviceWorker.register("sw.js");
+}
+
    function showCities(arr){
     listBox.innerHTML="";
     if(!arr.length){ listBox.style.display="none"; return; }
@@ -119,4 +122,5 @@ const cities = [
    
    input.value=localStorage.getItem("city")||"Assiut";
    loadPrayers();
+
    
