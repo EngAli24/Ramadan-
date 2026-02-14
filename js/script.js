@@ -7,6 +7,9 @@ if ("serviceWorker" in navigator) {
 if ("Notification" in window) {
  Notification.requestPermission();
 }
+document.addEventListener("click", () => {
+  adhanAudio.play().then(()=>adhanAudio.pause());
+}, { once:true });
 
 /* ================== DATA ================== */
 
@@ -171,5 +174,6 @@ function schedulePrayerNotify(prayers){
 
 input.value=localStorage.getItem("city") || "Assiut";
 loadPrayers();
+
 
 
