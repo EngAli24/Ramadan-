@@ -1,7 +1,7 @@
 /* ================= SERVICE WORKER ================= */
 
 if ("serviceWorker" in navigator) {
- navigator.serviceWorker.register("js/sw.js");
+ navigator.serviceWorker.register("../js/sw.js");
 }
 
 if ("Notification" in window) {
@@ -199,4 +199,5 @@ scheduleWirdReminder();
 /* ================= INIT ================= */
 
 loadWird();
+
 
