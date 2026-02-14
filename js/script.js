@@ -26,7 +26,7 @@ const timerBox = document.getElementById("timer");
 const nextTitle = document.getElementById("nextPrayer");
 
 let interval;
-const adhanAudio = new Audio("adhan.mp3");
+const adhanAudio = new Audio("js/adhan.mp3");
 
 /* ================== UI ================== */
 
@@ -171,3 +171,4 @@ function schedulePrayerNotify(prayers){
 
 input.value=localStorage.getItem("city") || "Assiut";
 loadPrayers();
+
