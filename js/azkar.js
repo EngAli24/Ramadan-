@@ -33,6 +33,9 @@ categories.forEach(c=>{
 });
 
 /* ===== OPEN CATEGORY ===== */
+if("serviceWorker" in navigator){
+ navigator.serviceWorker.register("/sw.js");
+}
 
 function openCategory(type){
 
@@ -192,4 +195,5 @@ function saveAzkar(){
 function isRamadan(){
  return new Date().getMonth()+1===9;
 }
+
 
