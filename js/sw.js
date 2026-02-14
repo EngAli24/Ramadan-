@@ -1,7 +1,7 @@
-const CACHE = "noor-cache-v2";
+const CACHE = "noor-cache-v3";
 
-self.addEventListener("install", e => {
-  e.waitUntil(
+self.addEventListener("install", event => {
+  event.waitUntil(
     caches.open(CACHE).then(cache =>
       cache.addAll([
         "./",
@@ -21,8 +21,9 @@ self.addEventListener("install", e => {
   );
 });
 
-self.addEventListener("fetch", e => {
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
+self.addEventListener("fetch", event => {
+  event.respondWith(
+    caches.match(event.request).then(resp => resp || fetch(event.request))
   );
 });
+
