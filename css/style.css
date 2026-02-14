@@ -897,25 +897,15 @@ body{
      font-size:16px;
     }
     }
-          
-.footer-dedication ul{
- list-style:none;
- padding:0;
+  .footer-dedication ul{
+ list-style:disc;
+ padding-right:25px;  
  margin:0;
+ text-align:right;    
 }
 
 .footer-dedication li{
- position:relative;
- padding-top:18px;
- margin-bottom:18px;
- text-align:center;
+ margin-bottom:12px;
 }
 
-.footer-dedication li::before{
- content:"•";
- display:block;
- color:#caa74e;
- font-size:26px;
- margin-bottom:6px;
-}
 
