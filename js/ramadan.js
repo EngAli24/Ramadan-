@@ -18,9 +18,6 @@ if(!Array.isArray(fav)) fav = [];
 let read = JSON.parse(localStorage.getItem("read"));
 if(!Array.isArray(read)) read = [];
 
-if("serviceWorker" in navigator){
- navigator.serviceWorker.register("../js/sw.js");
-}
 
 /* ================= SAVE ================= */
 
@@ -56,43 +53,47 @@ function createCard(id, text, more, source){
   const m=div.querySelector(".more");
   m.style.display=m.style.display==="block"?"none":"block";
  };
-
  const favBtn = document.createElement("button");
-favBtn.textContent = fav.includes(id) ? "💛" : "❤️";
-favBtn.onclick = () => {
-
- if(!fav.includes(id)) fav.push(id);
- else fav = fav.filter(x => x !== id);
-
- save();
-
- if(mode === "fav") showFav();
- if(mode === "read") showRead();
-};
-
-const readBtn = document.createElement("button");
-readBtn.textContent = read.includes(id) ? "✔ تم" : "✔ تمت القراءة";
-
-readBtn.onclick = () => {
-
- if(!read.includes(id)){
-  read.push(id);
-  secondaryPoints += 3;
+ favBtn.textContent = fav.includes(id) ? "💛" : "❤️";
+ favBtn.onclick = () => {
+ 
+  if(!fav.includes(id)) fav.push(id);
+  else fav = fav.filter(x => x !== id);
+ 
   save();
- }
-
- readBtn.textContent = "✔ تم";
-
- if(mode === "read") showRead();
- if(mode === "fav") showFav();
-};
-
+ 
+  if(mode === "fav") showFav();
+  if(mode === "read") showRead();
+ };
+ 
+ const readBtn = document.createElement("button");
+ readBtn.textContent = read.includes(id) ? "✔ تم" : "✔ تمت القراءة";
+ 
+ readBtn.onclick = () => {
+ 
+  if(!read.includes(id)){
+   read.push(id);
+   secondaryPoints += 3;
+   save();
+  }
+ 
+  readBtn.textContent = "✔ تم";
+ 
+  if(mode === "read") showRead();
+  if(mode === "fav") showFav();
+ };
+ 
 
  actions.append(moreBtn,favBtn,readBtn);
  div.appendChild(actions);
  content.appendChild(div);
 }
-
+function getRamadanDay(){
+  const start = new Date(2026, 1, 19); 
+  const today = new Date();
+  const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+  return diff + 1;
+}
 /* ================= HADITH ================= */
 
 function showHadith(){
@@ -268,7 +269,3 @@ function showRead(){
 
 save();
 showHadith();
-
-
-
-
