@@ -1,4 +1,4 @@
-/* ================== SERVICE WORKER ================== */
+/* ================= SERVICE WORKER ================= */
 
 if ("serviceWorker" in navigator) {
  navigator.serviceWorker.register("js/sw.js");
@@ -7,17 +7,14 @@ if ("serviceWorker" in navigator) {
 if ("Notification" in window) {
  Notification.requestPermission();
 }
-document.addEventListener("click", () => {
-  adhanAudio.play().then(()=>adhanAudio.pause());
-}, { once:true });
 
-/* ================== DATA ================== */
+/* ================= DATA ================= */
 
 const cities = [
  "Cairo","Giza","Alexandria","Dakahlia","Sharqia","Gharbia","Monufia",
  "Qalyubia","Beheira","Kafr El Sheikh","Damietta","Port Said","Ismailia",
- "Suez","Faiyum","Beni Suef","Minya","Assiut","Dayrout",
- "Sohag","Qena","Luxor","Aswan","Red Sea","New Valley",
+ "Suez","Faiyum","Beni Suef","Minya","Assiut","New Assiut City","Dayrout",
+ "Sohag","New Sohag City","Qena","Luxor","Aswan","Red Sea","New Valley",
  "Matrouh","North Sinai","South Sinai",
  "Mecca","Medina","Kuwait"
 ];
@@ -28,10 +25,16 @@ const prayersBox = document.getElementById("prayers");
 const timerBox = document.getElementById("timer");
 const nextTitle = document.getElementById("nextPrayer");
 
-let interval;
 const adhanAudio = new Audio("js/adhan.mp3");
 
-/* ================== UI ================== */
+document.addEventListener("click",()=>{
+ adhanAudio.play().then(()=>adhanAudio.pause());
+},{once:true});
+
+let interval;
+let lastAdhan = "";
+
+/* ================= CITY SEARCH ================= */
 
 function showCities(arr){
  listBox.innerHTML="";
@@ -61,23 +64,34 @@ document.onclick=e=>{
  if(!e.target.closest(".city-wrapper")) listBox.style.display="none";
 };
 
-/* ================== LOAD PRAYERS ================== */
+/* ================= LOAD PRAYERS ================= */
 
 async function loadPrayers(){
+
  clearInterval(interval);
 
  const city=input.value || "Assiut";
-
  let country="Egypt";
+
  if(["Mecca","Medina"].includes(city)) country="Saudi Arabia";
  if(city==="Kuwait") country="Kuwait";
 
- const res=await fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=5`);
+ let res;
+
+ if(city==="New Assiut City"){
+  res = await fetch(
+   "https://api.aladhan.com/v1/timings?latitude=27.18&longitude=31.17&method=2"
+  );
+ }else{
+  res = await fetch(
+   `https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=2`
+  );
+ }
+
  const data=await res.json();
  const t=data.data.timings;
 
  const prayers = [
-  ["الإمساك", t.Imsak],
   ["الفجر", t.Fajr],
   ["الشروق", t.Sunrise],
   ["الظهر", t.Dhuhr],
@@ -97,14 +111,15 @@ async function loadPrayers(){
  });
 
  startTimer(prayers);
- schedulePrayerNotify(prayers);
+ checkAdhan(prayers);
 }
 
-/* ================== TIMER ================== */
+/* ================= TIMER ================= */
 
 function startTimer(prayers){
 
  function tick(){
+
   const now=new Date();
   let next,time;
 
@@ -112,7 +127,11 @@ function startTimer(prayers){
    const [h,m]=p[1].split(":");
    const d=new Date();
    d.setHours(h,m,0,0);
-   if(d>now && (!time||d<time)){ time=d; next=p[0]; }
+
+   if(d>now && (!time||d<time)){
+    time=d;
+    next=p[0];
+   }
   });
 
   if(!time){
@@ -139,42 +158,38 @@ function startTimer(prayers){
  interval=setInterval(tick,1000);
 }
 
-/* ================== BACKGROUND NOTIFY + ADHAN ================== */
+/* ================= BACKGROUND ADHAN ================= */
 
-function schedulePrayerNotify(prayers){
+function checkAdhan(prayers){
 
- prayers.forEach(p=>{
-
-  const [h,m]=p[1].split(":");
+ setInterval(()=>{
 
   const now=new Date();
-  const target=new Date();
-  target.setHours(h,m,0,0);
+  const current =
+   String(now.getHours()).padStart(2,"0")+":"+
+   String(now.getMinutes()).padStart(2,"0");
 
-  if(target < now) target.setDate(target.getDate()+1);
+  prayers.forEach(p=>{
 
-  const delay = target - now;
+   if(p[1]===current && lastAdhan!==current){
 
-  setTimeout(()=>{
-   navigator.serviceWorker.ready.then(reg=>{
-    reg.showNotification("🕌 وقت الصلاة",{
-     body: "حان الآن وقت " + p[0],
-     vibrate:[200,100,200]
+    adhanAudio.play();
+
+    navigator.serviceWorker.ready.then(reg=>{
+     reg.showNotification("🕌 وقت الصلاة",{
+      body:"حان الآن وقت " + p[0]
+     });
     });
-   });
 
-   adhanAudio.play();
+    lastAdhan=current;
+   }
 
-  }, delay);
+  });
 
- });
+ },1000);
 }
 
-/* ================== INIT ================== */
+/* ================= INIT ================= */
 
 input.value=localStorage.getItem("city") || "Assiut";
 loadPrayers();
-
-
-
-
