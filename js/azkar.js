@@ -8,16 +8,6 @@ let secondaryPoints = Number(localStorage.getItem("secondaryPoints")) || 0;
 let lastDay = localStorage.getItem("zekrDay") || "";
 let streak = Number(localStorage.getItem("zekrStreak")) || 0;
 
-/* ===== SERVICE WORKER ===== */
-
-if("serviceWorker" in navigator){
- navigator.serviceWorker.register("js/sw.js");
-}
-
-if ("Notification" in window) {
- Notification.requestPermission();
-}
-
 /* ===== SAME NAMES ===== */
 
 const categories = [
@@ -36,7 +26,7 @@ const categories = [
 
 categories.forEach(c=>{
  const div=document.createElement("div");
- div.className="azkar-card";
+ div.className="azkar-card";        // 👈 نفس الكلاس القديم
  div.textContent=c[1];
  div.onclick=()=>openCategory(c[0]);
  cardsContainer.appendChild(div);
@@ -60,8 +50,7 @@ function openCategory(type){
  items.forEach(z=>{
 
   const card=document.createElement("div");
-  card.className="zekr-card";
-
+  card.className="zekr-card";     
   let counter=0;
 
   card.innerHTML=`
@@ -109,8 +98,14 @@ function openCategory(type){
 
  renderProgress(doneCount,items.length);
  listContainer.scrollIntoView({behavior:"smooth"});
-}
 
+}
+function getRamadanDay(){
+  const start = new Date(2026, 1, 19); 
+  const today = new Date();
+  const diff = Math.floor((today - start) / (1000 * 60 * 60 * 24));
+  return diff + 1;
+}
 /* ===== PROGRESS ===== */
 
 function renderProgress(done,total){
@@ -128,40 +123,41 @@ function renderProgress(done,total){
 
 function openTasbeeh(){
 
- listContainer.innerHTML="";
-
- let count = Number(localStorage.getItem("tasbeehCount")) || 0;
-
- const card = document.createElement("div");
- card.className="zekr-card";
-
- card.innerHTML=`
-  <h3>📿 السبحة الإلكترونية</h3>
-  <div id="tasCount" style="font-size:48px;margin:20px 0">${count}</div>
- `;
-
- const tasbeehBtn=document.createElement("button");
- tasbeehBtn.textContent="سبّح";
-
- tasbeehBtn.onclick=()=>{
-  count++;
-  document.getElementById("tasCount").textContent=count;
-  localStorage.setItem("tasbeehCount",count);
- };
-
- const resetBtn=document.createElement("button");
- resetBtn.textContent="تصفير";
- resetBtn.style.background="#caa74e";
-
- resetBtn.onclick=()=>{
-  count=0;
-  document.getElementById("tasCount").textContent=count;
-  localStorage.setItem("tasbeehCount",count);
- };
-
- card.append(tasbeehBtn,resetBtn);
- listContainer.appendChild(card);
-}
+    listContainer.innerHTML="";
+   
+    let count = Number(localStorage.getItem("tasbeehCount")) || 0;
+   
+    const card = document.createElement("div");
+    card.className = "zekr-card";
+   
+    card.innerHTML = `
+     <h3>📿 السبحة الإلكترونية</h3>
+     <div id="tasCount" style="font-size:48px;margin:20px 0">${count}</div>
+    `;
+   
+    const tasbeehBtn = document.createElement("button");
+    tasbeehBtn.textContent = "سبّح";
+   
+    tasbeehBtn.onclick = () => {
+     count++;
+     document.getElementById("tasCount").textContent = count;
+     localStorage.setItem("tasbeehCount", count);
+    };
+   
+    const resetBtn = document.createElement("button");
+    resetBtn.textContent = "تصفير";
+    resetBtn.style.background = "#caa74e";
+   
+    resetBtn.onclick = () => {
+     count = 0;
+     document.getElementById("tasCount").textContent = count;
+     localStorage.setItem("tasbeehCount", count);
+    };
+   
+    card.append(tasbeehBtn, resetBtn);
+    listContainer.appendChild(card);
+   }
+   
 
 /* ===== REWARD ===== */
 
@@ -182,6 +178,7 @@ function updateStreak(){
   const yd=y.toISOString().split("T")[0];
 
   streak = lastDay===yd ? streak+1 : 1;
+
   lastDay=today;
 
   localStorage.setItem("zekrDay",today);
@@ -197,39 +194,10 @@ function saveAzkar(){
 }
 
 function isRamadan(){
- return new Date().getMonth()+1===9;
+ const start = new Date(2026,1,19);
+ const end = new Date(start);
+ end.setDate(start.getDate()+30);
+ const today = new Date();
+
+ return today >= start && today <= end;
 }
-
-/* ================= BACKGROUND AZKAR REMINDERS ================= */
-
-function scheduleAzkarReminder(hour,title,msg){
-
- const now=new Date();
- const target=new Date();
-
- target.setHours(hour,0,0,0);
-
- if(target<=now){
-  target.setDate(target.getDate()+1);
- }
-
- const delay=target-now;
-
- setTimeout(()=>{
-
-  navigator.serviceWorker.ready.then(reg=>{
-   reg.showNotification(title,{
-    body:msg,
-    vibrate:[200,100,200]
-   });
-  });
-
-  scheduleAzkarReminder(hour,title,msg);
-
- },delay);
-}
-
-scheduleAzkarReminder(8,"🌅 أذكار الصباح","ابدأ يومك بذكر الله ✨");
-
-scheduleAzkarReminder(19,"🌙 أذكار المساء","لا تنس أذكار المساء 🤍");
-
