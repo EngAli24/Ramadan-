@@ -907,5 +907,40 @@ body{
 .footer-dedication li{
  margin-bottom:12px;
 }
+#ramadanCalendar{
+ display:grid;
+ grid-template-columns:repeat(auto-fill,minmax(90px,1fr));
+ gap:14px;
+}
+
+#ramadanCalendar .day{
+ height:110px;
+ display:flex;
+ flex-direction:column;
+ justify-content:center;
+ align-items:center;
+ border-radius:16px;
+ background:#fff;
+ box-shadow:0 4px 10px rgba(0,0,0,.12);
+ font-size:14px;
+ text-align:center;
+}
+
+#ramadanCalendar .day.done{
+ background:#0f5132;
+ color:#fff;
+ box-shadow:0 6px 14px rgba(15,81,50,.4);
+ transform:scale(1.03);
+}
+
+#ramadanCalendar .day span{
+ font-weight:bold;
+ margin-bottom:6px;
+}
+
+#ramadanCalendar .day strong{
+ font-size:15px;
+}
+
 
 
