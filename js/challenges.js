@@ -15,6 +15,25 @@ function save(){
  localStorage.setItem("tasks",JSON.stringify(tasks));
 }
 
+/* ===== رمضان ===== */
+
+function getRamadanDay(){
+ const start = new Date(2026,1,19);
+ const today = new Date();
+ const diff = Math.floor((today - start)/(1000*60*60*24));
+ return diff+1;
+}
+
+function isRamadan(){
+ const start = new Date(2026,1,19);
+ const end = new Date(start);
+ end.setDate(start.getDate()+30);
+ const today = new Date();
+ return today>=start && today<=end;
+}
+
+/* ===== RENDER ===== */
+
 function render(){
 
  let donePoints=0;
@@ -24,6 +43,7 @@ function render(){
  list.innerHTML="";
 
  tasks.forEach(t=>{
+
   totalPoints+=t.points;
 
   if(t.done) donePoints+=t.points;
@@ -32,7 +52,7 @@ function render(){
   list.innerHTML+=`
    <div class="task ${t.done?"done":""}" onclick="toggle('${t.id}')">
     <span>${t.name}</span>
-    <span class="points">${t.points?`(${t.points} نقطة)`:"إجباري"}</span>
+    <span class="points">(${t.points} نقطة)</span>
    </div>
   `;
  });
@@ -43,42 +63,46 @@ function render(){
  total.innerText=`مجموع نقاط اليوم: ${donePoints}`;
 
  if(doneRequired && percent===100){
-  const today = new Date().toISOString().split("T")[0];
-  localStorage.setItem("score-"+today, donePoints);
+
+  const day = getRamadanDay();
+  localStorage.setItem("ramadan-day-"+day, donePoints);
 
   modal.classList.add("show");
- }
 }
 
+
+ save();
+}
+
+/* ===== TOGGLE ===== */
+
 function toggle(id){
-  tasks = tasks.map(t=>{
-   if(String(t.id) === String(id)){
-     t.done = !t.done;
-   }
-   return t;
-  });
-  save();
-  render();
- }
- 
+ tasks = tasks.map(t=>{
+  if(String(t.id)===String(id)){
+   t.done=!t.done;
+  }
+  return t;
+ });
+ render();
+}
+
+/* ===== ADD ===== */
 
 function addTask(){
-  const val=document.getElementById("newTask").value.trim();
-  if(!val) return;
- 
-  tasks.push({
-   id:Date.now(),
-   name:val,
-   points:0,
-   required:true,
-   done:false   
-  });
- 
-  document.getElementById("newTask").value="";
-  save();
-  render();
- }
- 
+ const val=document.getElementById("newTask").value.trim();
+ if(!val) return;
+
+ tasks.push({
+  id:Date.now(),
+  name:val,
+  points:0,
+  required:true,
+  done:false
+ });
+
+ document.getElementById("newTask").value="";
+ render();
+}
 
 function closeModal(){
  modal.classList.remove("show");
